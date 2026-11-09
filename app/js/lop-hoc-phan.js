@@ -275,9 +275,8 @@
 
                 '  <div class="d-flex justify-between align-center mb-2">' +
                 '    <h4 style="font-size:0.95rem; font-weight:800;"><i class="fa-solid fa-calendar-days" style="color:var(--primary);"></i> Lịch học trong tuần</h4>' +
-                '    <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddScheduleRow"><i class="fa-solid fa-plus"></i> Thêm buổi học trong tuần</button>' +
                 '  </div>' +
-                '  <p class="form-note">Chọn thứ học và khung tiết. Hệ thống sinh buổi học vào mọi ngày của thứ đã chọn trong khoảng ngày học phần, bỏ qua ngày trùng lịch giảng viên / phòng học. Bấm "Xem trước lịch" để kiểm tra trước khi lưu.</p>' +
+                '  <p class="form-note">Mỗi lớp học một buổi trong tuần: chọn thứ học và khung tiết. Hệ thống sinh buổi học vào thứ đó của mỗi tuần trong khoảng ngày học phần, bỏ qua ngày trùng lịch giảng viên / phòng học. Bấm "Xem trước lịch" để kiểm tra trước khi lưu.</p>' +
                 '  <div id="scheduleContainer">' +
                 '  </div>' +
                 '  <div id="lhpCalc" class="mt-2" style="font-size:0.82rem;"></div>' +
@@ -452,9 +451,6 @@
                 '    <div class="form-group mb-0" style="flex:0.8;">' +
                 '      <label style="font-size:0.8rem;">Tiết KT</label>' +
                 '      <input type="number" min="1" max="13" class="form-control sch-tkt" value="' + data.tiet_ket_thuc + '">' +
-                '    </div>' +
-                '    <div class="form-group mb-0" style="flex:0.3; text-align:center; padding-top:20px;">' +
-                '      <button type="button" class="btn btn-sm btn-danger btn-remove-schedule" title="Xóa lịch">Xóa lịch</button>' +
                 '    </div>' +
                 '  </div>' +
                 '</div>';

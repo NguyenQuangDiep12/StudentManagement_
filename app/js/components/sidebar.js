@@ -57,7 +57,6 @@ var SidebarComponent = (function ($) {
             item('ds-dang-ky', 'Đăng ký học phần', 'Danh sách sinh viên đăng ký lớp');
             item('diem-danh', 'Điểm danh', 'Chọn buổi học và điểm danh sinh viên');
             item('tra-cuu-diem', 'Tra cứu bảng điểm', 'Chọn lớp sinh viên, sinh viên rồi xem kết quả');
-            item('kien-nghi', 'Kiến nghị', 'Xem và phản hồi kiến nghị');
         } else if (role === 'sinh_vien') {
             // Thứ tự và tên theo mã nguồn cũ (StudentManagement - roleSections.student)
             item('dashboard', 'Tổng quan', 'Thông tin nhanh về học tập');

@@ -186,7 +186,7 @@ var HelpComponent = (function ($) {
             steps: [
                 'Sinh viên bấm "Gửi ý kiến mới", nhập tiêu đề và nội dung rồi gửi.',
                 'Bấm "Chi tiết" để xem nội dung và các phản hồi.',
-                'Quản trị viên / giảng viên nhập phản hồi trong "Chi tiết"; ý kiến chuyển sang "Đã phản hồi". Quản trị viên có thể xóa ý kiến.'
+                'Quản trị viên nhập phản hồi trong "Chi tiết"; ý kiến chuyển sang "Đã phản hồi". Quản trị viên có thể xóa ý kiến.'
             ],
             rules: []
         }

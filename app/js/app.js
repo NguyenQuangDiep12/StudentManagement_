@@ -130,7 +130,7 @@ var App = (function ($) {
             category: 'KIẾN NGHỊ',
             title: 'Ý kiến & Kiến nghị',
             desc: 'Tiếp nhận đóng góp, phản hồi thắc mắc và giải đáp cho sinh viên',
-            roles: ['admin', 'giang_vien', 'sinh_vien']
+            roles: ['admin', 'sinh_vien']
         }
     };
 

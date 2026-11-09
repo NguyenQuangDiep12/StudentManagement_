@@ -23,7 +23,7 @@ class Quanlykiennghi
     /** GET /api/kiennghi?search=&trang_thai= — SV chỉ thấy ý kiến của mình */
     public function index(): void
     {
-        $user = AuthService::requireUser($this->db);
+        $user = AuthService::requireUser($this->db, ['admin', 'sinh_vien']);
 
         $sql = '
             SELECT k.*, u.ho_ten AS ten_sinh_vien, u.ma_dinh_danh AS ma_sinh_vien,
@@ -62,7 +62,7 @@ class Quanlykiennghi
     /** GET /api/kiennghi/chi-tiet?id= — kèm danh sách phản hồi */
     public function show(): void
     {
-        $user = AuthService::requireUser($this->db);
+        $user = AuthService::requireUser($this->db, ['admin', 'sinh_vien']);
         $kn = $this->find(Request::int(Request::query('id')), $user);
 
         $stmt = $this->db->prepare('
@@ -107,7 +107,7 @@ class Quanlykiennghi
     public function reply(): void
     {
         Request::requireMethod('POST');
-        $user = AuthService::requireUser($this->db, ['admin', 'giang_vien']);
+        $user = AuthService::requireUser($this->db, ['admin']);
         $kn = $this->find(Request::int(Request::input('kien_nghi_id')), $user);
 
         $noiDung = Request::str(Request::input('noi_dung'));
