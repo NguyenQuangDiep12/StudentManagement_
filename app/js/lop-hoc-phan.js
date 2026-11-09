@@ -15,6 +15,7 @@
             var isGV = currentUser && currentUser.vai_tro === 'giang_vien';
             var self = this;
             this.search = { query: '', field: 'all' };
+            this.trangThai = '';
 
             // Bố cục theo mã nguồn cũ (renderSectionsSection + SectionForm): form tạo lớp (trái) + danh sách (phải)
             var html =
@@ -22,7 +23,7 @@
                 (isAdmin ? '<div id="lhpFormSlot"></div>' : '') +
                 '  <div class="nd-card">' +
                 OldUI.header('Quản lý lớp học phần', 'Theo dõi chỗ còn trống, lịch học và trạng thái đăng ký của từng lớp.') +
-                OldUI.toolbar('lhpSearch', ['Mã lớp', 'Môn học', 'Trạng thái'], 'Nhập từ khóa lớp học phần...') +
+                OldUI.toolbar('lhpSearch', ['Mã lớp', 'Môn học'], 'Nhập từ khóa lớp học phần...') +
                 '    <div class="nd-table-wrap"><table class="nd-table">' +
                 '      <thead><tr><th>Mã lớp</th><th>Môn học</th><th>Giảng viên</th><th>Tòa nhà / phòng</th><th>Lịch</th><th>Chỗ trống</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>' +
                 '      <tbody id="lhpTableBody"><tr><td colspan="8" class="nd-empty">Đang tải...</td></tr></tbody>' +
@@ -33,6 +34,15 @@
             $('#contentArea').html(html);
             this.bindEvents();
             OldUI.bind('lhpSearch', function (q) { self.search = q; self.renderRows(); });
+            // Lọc trạng thái đăng ký bằng ô chọn, chọn xong lọc ngay, không cần nhập từ khóa
+            $('#lhpSearch .nd-search-actions').prepend(
+                '<select id="lhpTrangThai" style="padding:12px; border:1px solid #d9e3f2; border-radius:13px; background:#fff;">' +
+                '<option value="">Tất cả trạng thái</option>' +
+                '<option value="mo">Đang mở đăng ký</option>' +
+                '<option value="dong">Đã đóng đăng ký</option>' +
+                '</select>'
+            );
+            $('#lhpTrangThai').on('change', function () { self.trangThai = $(this).val(); self.renderRows(); });
             App.fillTermSelects(null, $('<select>'), {}, function () {
                 self.loadData();
                 // Form tạo lớp hiện sẵn trên trang (cần danh sách học kỳ / năm học đã nạp)
@@ -108,8 +118,11 @@
             var all = (this.cache || []).map(function (l) {
                 return $.extend({}, l, { dang_mo: App.trangThaiLopBadge(l).indexOf('Đang mở') !== -1 });
             });
+            var tt = this.trangThai || '';
             var list = all.filter(function (l) {
-                return OldUI.match([l.ma_lop_hoc_phan, (l.ten_mon_hoc || '') + ' ' + (l.ma_mon_hoc || ''), l.dang_mo ? 'Mở đăng ký' : 'Đóng đăng ký'], q);
+                if (tt === 'mo' && !l.dang_mo) return false;
+                if (tt === 'dong' && l.dang_mo) return false;
+                return OldUI.match([l.ma_lop_hoc_phan, (l.ten_mon_hoc || '') + ' ' + (l.ma_mon_hoc || '')], q);
             });
             OldUI.count('lhpSearch', list.length, all.length, 'lớp học phần');
 
@@ -275,8 +288,9 @@
 
                 '  <div class="d-flex justify-between align-center mb-2">' +
                 '    <h4 style="font-size:0.95rem; font-weight:800;"><i class="fa-solid fa-calendar-days" style="color:var(--primary);"></i> Lịch học trong tuần</h4>' +
+                '    <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddScheduleRow"><i class="fa-solid fa-plus"></i> Thêm buổi học trong tuần</button>' +
                 '  </div>' +
-                '  <p class="form-note">Mỗi lớp học một buổi trong tuần: chọn thứ học và khung tiết. Hệ thống sinh buổi học vào thứ đó của mỗi tuần trong khoảng ngày học phần, bỏ qua ngày trùng lịch giảng viên / phòng học. Bấm "Xem trước lịch" để kiểm tra trước khi lưu.</p>' +
+                '  <p class="form-note">Chọn thứ học và khung tiết. Hệ thống sinh buổi học vào mọi ngày của thứ đã chọn trong khoảng ngày học phần, bỏ qua ngày trùng lịch giảng viên / phòng học. Bấm "Xem trước lịch" để kiểm tra trước khi lưu.</p>' +
                 '  <div id="scheduleContainer">' +
                 '  </div>' +
                 '  <div id="lhpCalc" class="mt-2" style="font-size:0.82rem;"></div>' +
@@ -451,6 +465,9 @@
                 '    <div class="form-group mb-0" style="flex:0.8;">' +
                 '      <label style="font-size:0.8rem;">Tiết KT</label>' +
                 '      <input type="number" min="1" max="13" class="form-control sch-tkt" value="' + data.tiet_ket_thuc + '">' +
+                '    </div>' +
+                '    <div class="form-group mb-0" style="flex:0.3; text-align:center; padding-top:20px;">' +
+                '      <button type="button" class="btn btn-sm btn-danger btn-remove-schedule" title="Xóa lịch">Xóa lịch</button>' +
                 '    </div>' +
                 '  </div>' +
                 '</div>';

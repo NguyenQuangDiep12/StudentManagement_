@@ -271,12 +271,7 @@ class Quanlylophocphan
         if ($dup->fetchColumn()) {
             Response::json(['success' => false, 'message' => 'Mã lớp học phần "' . $data['ma_lop_hoc_phan'] . '" đã tồn tại!'], 409);
         }
-        // Đơn giản hóa: mỗi lớp học phần chỉ có một buổi học trong tuần (một thứ, một khung tiết)
-        $rawLich = Request::input('lich_hoc');
-        if (is_array($rawLich) && count($rawLich) > 1) {
-            Response::json(['success' => false, 'message' => 'Mỗi lớp học phần chỉ có một buổi học trong tuần.'], 422);
-        }
-        $schedules = $this->validateSchedules($rawLich, $data);
+        $schedules = $this->validateSchedules(Request::input('lich_hoc'), $data);
         // RULE-HL-01, RULE-THIEU-03: chỉ lưu khi xếp đủ tổng số tiết (đã tránh xung đột, RULE-XL-06)
         $this->requireDuTiet($this->planFor($data, $schedules, null));
 
